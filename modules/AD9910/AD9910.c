@@ -161,7 +161,7 @@ void Txprofile(void)
 /************************************************************
 ** 函数名称 ：void Freq_convert(ulong Freq)
 ** 函数功能 ：将需要的频率转换为对应的控制数据，保存进profile11并发送到芯片
-** 入口参数 ：目标频率，单位Hz，范围0~420000000
+** 入口参数 ：目标频率，单位Hz，范围0-420000000
 ** 出口参数 ：无
 ** 函数说明 ：无
 **************************************************************/
@@ -180,9 +180,9 @@ void Freq_convert(ulong Freq)
 /************************************************************
 ** 函数名称 ：void Write_Amplitude(uint16_t Amp)
 ** 函数功能 ：将幅度控制数据保存到profile11并写入芯片
-** 入口参数 ：幅度大学，范围1~800
+** 入口参数 ：幅度大学，范围1-800
 ** 出口参数 ：无
-** 函数说明 ：14位幅度控制字，控制数据0~16383对应输出幅度0~800mV左右
+** 函数说明 ：14位幅度控制字，控制数据0-16383对应输出幅度0-800mV左右
 **************************************************************/
 void Write_Amplitude(uint16_t Amp)
 {
@@ -221,7 +221,7 @@ void Write_32bit(uint32_t dat)
 ** 函数名称 ：AD9910_RAM_WAVE_Set(AD9910_WAVE_ENUM wave)
 ** 函数功能 ：设置AD9910,RAM功能，向AD9910芯片内部RAM写入1024个点的波形数据，使模块可输出任意波形
 							目前仅定义了三角波，方波，SINC波，三种波形数组
-							用户也可自定义数组数据，使波形输出自己定义的任意波形(1024个数据，每个数据范围：0~16383)
+							用户也可自定义数组数据，使波形输出自己定义的任意波形(1024个数据，每个数据范围：0-16383)
 ** 入口参数 ：wave： TRIG_WAVE：三角波，SQUARE_WAVE：方波，SINC_WAVE：SINC波
 ** 出口参数 ：无
 ** 函数说明 ：RAM播放速率决定了输出波形的频率，输出频率与播放速率控制字参考以下说明
@@ -335,12 +335,12 @@ void AD9910_DRG_FreInit_AutoSet(FunctionalState autoSweepEn)
 ** 函数名称 ：void AD9910_DRG_FrePara_Set(uint32_t lowFre, uint32_t upFre, uint32_t posStep, uint32_t negStep, uint16_t posRate, uint16_t negRate)
 ** 函数功能 ：按设定的频率上限，频率下限，上扫频步进，下扫频步进，及上扫频频点停留时间，下扫频频点停留时间，进行自动上下限循环扫频
 ** 入口参数 ：
-							uint32_t lowFre:扫频下限频率 					范围：1Hz~450000000Hz(450M Hz)
-							uint32_t  upFre:扫频上限频率  					范围：1Hz~450000000Hz(450M Hz)
-							uint32_t posStep：上扫频频率步进  				范围：1Hz~450000000Hz(450M Hz)
-							uint32_t negStep：下扫频频率步进  				范围：1Hz~450000000Hz(450M Hz)
-							uint16_t posRate：上扫频频点停留时间  			范围：0~65535
-							uint16_t negRate：下扫频频点停留时间 			范围：0~65535
+							uint32_t lowFre:扫频下限频率 					范围：1Hz-450000000Hz(450M Hz)
+							uint32_t  upFre:扫频上限频率  					范围：1Hz-450000000Hz(450M Hz)
+							uint32_t posStep：上扫频频率步进  				范围：1Hz-450000000Hz(450M Hz)
+							uint32_t negStep：下扫频频率步进  				范围：1Hz-450000000Hz(450M Hz)
+							uint16_t posRate：上扫频频点停留时间  			范围：0-65535
+							uint16_t negRate：下扫频频点停留时间 			范围：0-65535
 ** 出口参数 ：无
 ** 函数说明 ：扫频时间计算
 上扫频,频点与频点间停留时间 dt_P = 4*pos_rate / Fsysclk
@@ -556,7 +556,7 @@ void Txramdata(void)
 void Square_wave(uint Sample_interval)//方波
 {
 	ulong Temp;
-	Temp = Sample_interval/4; //1GHz/4, 采样间隔范围：4*(1~65536)ns
+	Temp = Sample_interval/4; //1GHz/4, 采样间隔范围：4*(1-65536)ns
 	if(Temp > 0xffff)
 		Temp = 0xffff;
 	ramprofile0[7] = 0x24;

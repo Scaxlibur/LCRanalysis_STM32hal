@@ -54,6 +54,9 @@
 #define CS  			PAout(8)      
 */
 
+#define DEFUALT_BACK_GAIN 4.0f	// AD9910后的默认增益
+
+
 #define 	RESET 	 GPIO_PIN_RESET
 #define 	SET 	 GPIO_PIN_SET
 
