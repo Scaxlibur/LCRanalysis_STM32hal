@@ -15,7 +15,11 @@ extern float FFT_outputbuf[FFT_LENGTH];
 
 void FFT_inputbuff_init(float FFT_inputbuf[],float ADC_Value[],uint32_t length);
 
+void IFFT_inputbuff_init(float IFFT_inputbuf[],float need_IFFT_value[],uint32_t length);
+
 void FFT_Start(float ADC_Value[],float FFT_inputbuf[],float FFT_outputbuf[],uint32_t length);
+
+void IFFT_Start(float need_IFFT_value[],float IFFT_inputbuf[],float IFFT_outputbuf[],uint32_t length);
 
 void FFT_printf_result(float printf_buf[],uint32_t length);
 
@@ -33,6 +37,8 @@ void normalize(float *x, int n);
 
 //相位计算函数
 float Phase_atan(float *inputSignal,uint32_t index);
+
+// void ifft()
 
 
 

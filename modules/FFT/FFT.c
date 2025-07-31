@@ -11,14 +11,13 @@
 // float AD8688_value[FFT_LENGTH];//8688采集数据数组
 float FFT_inputbuf[FFT_LENGTH*2];
 float FFT_outputbuf[FFT_LENGTH];
+float IFFT_inputbuf[FFT_LENGTH*2];
+float IFFT_outputbuf[FFT_LENGTH];
 
 //arm_max_f32(value,150,&AD8688_Max,&AD8688_Max_num);//找最大值函数,参数1：数组，参数2：数组大小，参数3：最大值变量地址，参数4：最大值索引地址，参数3,4必须为32位
 
 //arm_mean_f32(value,150,&AD8688_Mean);//找平均值函数
 
-/***
- * 
- */
 /**
  * @brief 对输入数组初始化，实部为ADC采集值，虚部全为0
  * @param FFT输入数组
@@ -32,6 +31,22 @@ void FFT_inputbuff_init(float FFT_inputbuf[],float ADC_Value[],uint32_t length)
 	{
 		FFT_inputbuf[i * 2] = ADC_Value[i];//实部赋值，实部为ADC实际采集电压
 		FFT_inputbuf[i * 2 + 1] = 0;//虚部赋值，固定为0.
+	}
+}
+
+/**
+ * @brief 对输入数组初始化，实部为ADC采集值，虚部全为0
+ * @param IFFT输入数组
+ * @param 需要转换的数组
+ * @param IFFT运算个数
+*/
+void IFFT_inputbuff_init(float IFFT_inputbuf[],float need_IFFT_value[],uint32_t length)
+{
+ //FFT输入数组初始化
+	for (int i = 0; i < length; i++)
+	{
+		IFFT_inputbuf[i * 2] = need_IFFT_value[i];//实部赋值，实部为ADC实际采集电压
+		IFFT_inputbuf[i * 2 + 1] = 0;//虚部赋值，固定为0.
 	}
 }
 
@@ -58,6 +73,28 @@ void FFT_Start(float ADC_Value[],float FFT_inputbuf[],float FFT_outputbuf[],uint
 }
 
 /**
+ * @brief 进行IFFT运算，将需要IFFT的数组存入FFT输入数组并进行实部虚部处理，再进行IFFT运算并处理，结果存入IFFT输出数组
+ * @param ADC采集电压数组
+ * @param IFFT输入数组
+ * @param IFFT输出数组
+ * @param IFFT运算个数
+*/
+void IFFT_Start(float need_IFFT_value[],float IFFT_inputbuf[],float IFFT_outputbuf[],uint32_t length)
+{
+    FFT_inputbuff_init(IFFT_inputbuf,need_IFFT_value,length);//对输入数组进行FFT初始化
+
+    arm_cfft_f32(&arm_cfft_sR_f32_len256, IFFT_inputbuf, 1, 1);//对输入数据进行傅里叶逆变换，arm_cfft_sR_f32_len256：傅里叶变换结构体，256是要运算的点数，根据实际修改
+	arm_cmplx_mag_f32(IFFT_inputbuf, IFFT_outputbuf, length); //对输入数组取模
+
+    //对运算结果再处理，第一个数据除以FFT_LENGTH，其余数据除以FFT_LENGTH的一半（与FFT算法有关）
+	IFFT_outputbuf[0] /= length;
+	for (int i = 1; i < length; i++)//输出各次谐波幅值
+	{
+		IFFT_outputbuf[i] /= (length/2);
+	}
+}
+
+/**
  * @brief 将数组结果打印,以两位小数的形式打印
  * @param 需要打印的数组
  * @param 数组长度
@@ -70,6 +107,7 @@ void FFT_printf_result(float printf_buf[],uint32_t length)
 		printf("%d\t%.2f\n",i,printf_buf[i]);
 	}
 }
+
 
 /**********全相位测量*************************************************************************************************************************************************/
 

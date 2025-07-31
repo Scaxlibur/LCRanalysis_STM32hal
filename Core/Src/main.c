@@ -30,6 +30,7 @@
 #include "FFT.h"
 #include "AD9910.h"
 #include "PGA.h"
+#include "gainDetermination.h"
 
 /* USER CODE END Includes */
 
@@ -53,7 +54,7 @@
 /* USER CODE BEGIN PV */
 uint16_t chipADCbuf[FFT_LENGTH] = {0}; // Buffer for ADC data, size 256
 unsigned long freq = 100;
-uint16_t amplitude = 100;
+uint16_t amplitude = 1500;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -113,9 +114,9 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    Freq_convert(freq);   //设置频率为1k,正弦波
-    Write_Amplitude(amplitude/DEFUALT_BACK_GAIN); //设置幅值（1-800mV）幅度设置为粗略设置
-    VGAgainSet(5);
+    // knownModelOutputSet(amplitude, freq);
+    Freq_convert(2000000);   //设置频率为1k,正弦波
+    Write_Amplitude(50); //设置幅值（1-800mV）幅度设置为粗略设置
     HAL_Delay(500);
     /* USER CODE END WHILE */
 

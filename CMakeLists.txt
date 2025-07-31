@@ -50,6 +50,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user sources here
     ${CMAKE_SOURCE_DIR}/modules/AD9910/AD9910.c
     ${CMAKE_SOURCE_DIR}/modules/FFT/FFT.c
+    ${CMAKE_SOURCE_DIR}/modules/gainDetermination/gainDetermination.c
     ${CMAKE_SOURCE_DIR}/modules/PGA/PGA.c
 )
 
@@ -58,6 +59,7 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined include paths
     ${CMAKE_SOURCE_DIR}/modules/AD9910
     ${CMAKE_SOURCE_DIR}/modules/FFT
+    ${CMAKE_SOURCE_DIR}/modules/gainDetermination
     ${CMAKE_SOURCE_DIR}/modules/PGA
     ${CMAKE_SOURCE_DIR}/Drivers/CMSIS/DSP/Include
 
